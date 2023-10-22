@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:webview_flutter/webview_flutter.dart';
+import 'package:webview_flutter/webview_flutter.dart'; // Ganti dengan impor ke layar selanjutnya di aplikasi Anda
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -15,7 +15,8 @@ class _SplashScreenState extends State<SplashScreen> {
       Duration(seconds: 3),
       () => Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-          builder: (context) => MyApp(),
+          builder: (context) =>
+              MyApp(), // Ganti dengan layar selanjutnya di aplikasi Anda
         ),
       ),
     );
@@ -28,7 +29,7 @@ class _SplashScreenState extends State<SplashScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            CircularProgressIndicator(),
+            CircularProgressIndicator(), // Anda bisa ganti dengan logo atau gambar lain
             SizedBox(height: 20),
             Text(
               "Misskbeauty",
@@ -41,35 +42,15 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 }
 
-class MyApp extends StatefulWidget {
-  @override
-  _MyAppState createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  final Completer<WebViewController> _controller =
-      Completer<WebViewController>();
-
+class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () async {
-            WebViewController controller = await _controller.future;
-            if (await controller.canGoBack()) {
-              controller.goBack();
-            }
-          },
+    return MaterialApp(
+      home: Scaffold(
+        body: WebView(
+          initialUrl: 'https://misskbeauty.com.au/',
+          javascriptMode: JavascriptMode.unrestricted,
         ),
-      ),
-      body: WebView(
-        initialUrl: 'https://misskbeauty.com.au/',
-        javascriptMode: JavascriptMode.unrestricted,
-        onWebViewCreated: (WebViewController webViewController) {
-          _controller.complete(webViewController);
-        },
       ),
     );
   }
